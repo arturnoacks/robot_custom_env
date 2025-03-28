@@ -4,15 +4,14 @@ import matplotlib.pyplot as plt
 import random
 import pickle
 import os
-import robot_env    # Even though we don't use this class here, we should include it here so that it registers the WarehouseRobot environment.
+import robot_env
 
-# Train or test using Q-Learning
 def run_q(episodes, is_training=True, render=None):
 
     env = gym.make('robot-v0', render_mode='human' if render else None)
 
     if(is_training):
-        # If training, initialize the Q Table, a 5D vector: [robot_row_pos, robot_row_col, target_row_pos, target_col_pos, actions]
+        # If training, initialize the Q Table
         q = np.zeros((env.unwrapped.grid_cols, env.unwrapped.grid_cols, env.unwrapped.grid_cols, env.action_space.n))
     else:
         # If testing, load Q Table from file.
@@ -109,5 +108,4 @@ def run_q(episodes, is_training=True, render=None):
 
 if __name__ == '__main__':
 
-    # Train/test using Q-Learning
     run_q(5000, is_training=True, render=False)

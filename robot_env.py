@@ -15,13 +15,12 @@ register(
     entry_point='robot_env:RobotEnv', # module_name:class_name
 )
 
-# Implement our own gym env, must inherit from gym.Env
-# https://gymnasium.farama.org/api/env/
+# The environment class must inherit from gym.Env
 class RobotEnv(gym.Env):
     # metadata is a required attribute
     # render_modes in our environment is either None or 'human'.
     # render_fps is not used in our env, but we are require to declare a non-zero value.
-    metadata = {"render_modes": ["human"], 'render_fps': 5}
+    metadata = {"render_modes": ["human", None], 'render_fps': 5}
 
     def __init__(self, grid_cols=15, render_mode=None):
 
@@ -64,7 +63,7 @@ class RobotEnv(gym.Env):
             self.render()
 
         print(f"Reset: {obs}")
-        print(f"Spaces: {self.observation_space}")
+        print(f"Space: {self.observation_space}")
 
         # Return observation and info
         return obs, info

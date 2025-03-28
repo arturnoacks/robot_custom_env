@@ -1,33 +1,25 @@
-'''
-This module models the problem to be solved. In this very simple example, the problem is to optimze a Robot that works in a Warehouse.
-The Warehouse is divided into a rectangular grid. A Target is randomly placed on the grid and the Robot's goal is to reach the Target.
-'''
 import random
 from enum import Enum
 import pygame
 import sys
 from os import path
 
-# Actions the Robot is capable of performing i.e. go in a certain direction
 class Action(Enum):
     LEFT=0
     RIGHT=1
 
-# The Warehouse is divided into a grid. Use these 'tiles' to represent the objects on the grid.
 class GridTile(Enum):
     _FLOOR=0
     CHARACTER=1
     TARGET=2
     OBSTACLE=3
 
-    # Return the first letter of tile name, for printing to the console.
+    # Print first char
     def __str__(self):
         return self.name[:1]
 
 class Robot:
-
-    # Initialize the grid size. Pass in an integer seed to make randomness (Targets) repeatable.
-    def __init__(self, grid_cols=5, fps=5):
+    def __init__(self, grid_cols=15, fps=3):
         self.grid_cols = grid_cols
         self.reset()
 
@@ -36,8 +28,8 @@ class Robot:
         self._init_pygame()
 
     def _init_pygame(self):
-        pygame.init() # initialize pygame
-        pygame.display.init() # Initialize the display module
+        pygame.init()
+        pygame.display.init()
 
         # Game clock
         self.clock = pygame.time.Clock()
@@ -58,7 +50,7 @@ class Robot:
         self.window_surface = pygame.display.set_mode(self.window_size) 
 
         # Load & resize sprites
-        file_name = path.join(path.dirname(__file__), "sprites/bot_blue.png")
+        file_name = path.join(path.dirname(__file__), "sprites/robot.png")
         img = pygame.image.load(file_name)
         self.robot_img = pygame.transform.scale(img, self.cell_size)
 
@@ -136,20 +128,16 @@ class Robot:
         # Print current state on console
 
         for c in range(self.grid_cols):
-            
-            # Draw floor
             pos = (c * self.cell_width, 1)
             self.window_surface.blit(self.floor_img, pos)
 
             if(c == self.target_pos):
-                # Draw target
                 self.window_surface.blit(self.goal_img, pos)
 
             if(c == self.obstacle_pos):
                 self.window_surface.blit(self.obstacle_img, pos)
             
             if(c == self.char_pos):
-                # Draw robot
                 self.window_surface.blit(self.robot_img, pos)
             
                 
